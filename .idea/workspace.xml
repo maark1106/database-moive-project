@@ -5,18 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="871a629a-8193-47f6-b1be-05e31b40cecc" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/18367a7c-f76d-41d1-8e0d-981ba0d2aaa8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/18367a7c-f76d-41d1-8e0d-981ba0d2aaa8.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5106676c-cee6-46e6-a6a8-d54b7e49099d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/5106676c-cee6-46e6-a6a8-d54b7e49099d.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,6 +36,11 @@
     </system>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="2geCN9EqcjFSXKsytzu1FRpC3sD" />
@@ -64,6 +59,9 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "onboarding.tips.debug.path": "C:/Users/mark1/Desktop/학교활동/3학년/3-1/데이터베이스/database-moive-project/src/main/java/org/example/Main.java",
+    "project.structure.last.edited": "Libraries",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "File.Encoding",
     "vue.rearranger.settings.migration": "true"
   },
@@ -110,6 +108,7 @@
       <option name="presentableId" value="Default" />
       <updated>1716048618217</updated>
       <workItem from="1716048619606" duration="855000" />
+      <workItem from="1716050575864" duration="951000" />
     </task>
     <servers />
   </component>
