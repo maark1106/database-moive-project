@@ -1,0 +1,331 @@
+package view.admin;
+
+import dao.admin.AdminInitializeDao;
+import dao.admin.AdminSqlInputDao;
+import dao.admin.AdminTableDao;
+import dto.member.MemberDto;
+import dto.movie.MovieDto;
+import dto.reservation.ReservationDto;
+import dto.screen.ScreenDto;
+import dto.screeningschedule.ScreeningScheduleDto;
+import dto.seat.SeatDto;
+import dto.ticket.TicketDto;
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+
+public class AdminStartView extends JFrame {
+
+    public AdminStartView() {
+        JFrame adminFrame = new JFrame("Admin Panel");
+        adminFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        adminFrame.setSize(500, 200);
+        adminFrame.setLocationRelativeTo(null);
+
+        JPanel adminPanel = new JPanel();
+        adminFrame.getContentPane().add(adminPanel);
+        adminButton(adminPanel); // 관리자 패널에 버튼 추가
+
+        adminFrame.setVisible(true);
+    }
+
+    private void adminButton(JPanel panel) {
+        panel.setLayout(null);
+
+        // 초기화 버튼
+        JButton initializeButton = new JButton("초기화");
+        initializeButton.setBounds(30, 30, 100, 30);
+        panel.add(initializeButton);
+        initializeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AdminInitializeDao dao = new AdminInitializeDao();
+                dao.initialize();
+            }
+        });
+
+        // 입력/삭제 버튼
+        JButton inputDeleteButton = new JButton("입력/삭제/변경");
+        inputDeleteButton.setBounds(150, 30, 120, 30);
+        panel.add(inputDeleteButton);
+        inputDeleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AdminSqlInputDao dao = new AdminSqlInputDao();
+                String sql = JOptionPane.showInputDialog(panel, "SQL 문을 입력하세요:");
+                dao.sqlInput(sql, panel);
+            }
+        });
+
+        // 전체 테이블 보기 버튼
+        JButton viewTableButton = new JButton("전체 테이블 보기");
+        viewTableButton.setBounds(290, 30, 150, 30);
+        panel.add(viewTableButton);
+        viewTableButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFrame tableFrame = new JFrame("Database Tables");
+                tableFrame.setSize(800, 600);
+                tableFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                tableFrame.setLocationRelativeTo(null);
+
+                JPanel panel = new JPanel(new BorderLayout());
+                JTabbedPane tabbedPane = new JTabbedPane();
+                panel.add(tabbedPane, BorderLayout.CENTER);
+
+                showAllTables(tabbedPane);
+
+                tableFrame.add(panel);
+                tableFrame.setVisible(true);
+            }
+        });
+    }
+
+    private void showAllTables(JTabbedPane tabbedPane) {
+        AdminTableDao dao = new AdminTableDao();
+
+        List<MovieDto> movies = dao.getAllMovies();
+        showMovies(tabbedPane, movies);
+
+        List<MemberDto> members = dao.getAllMembers();
+        showMembers(tabbedPane, members);
+
+        List<ScreenDto> screens = dao.getAllScreens();
+        showScreens(tabbedPane, screens);
+
+        List<ScreeningScheduleDto> schedules = dao.getAllScreenSchedules();
+        showScreeningSchedules(tabbedPane, schedules);
+
+        List<SeatDto> seats = dao.getAllSeats();
+        showSeats(tabbedPane, seats);
+
+        List<ReservationDto> reservations = dao.getAllReservations();
+        showReservations(tabbedPane, reservations);
+
+        List<TicketDto> tickets = dao.getAllTickets();
+        showTickets(tabbedPane, tickets);
+    }
+
+    private void showMovies(JTabbedPane tabbedPane, List<MovieDto> movies) {
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // 모든 셀을 편집할 수 없도록 설정
+            }
+        };
+        String[] columnNames = {"ID", "Title", "Running Time", "Director", "Actor", "Genre", "Description", "Release Date", "Rating", "Age Limit"};
+        model.setColumnIdentifiers(columnNames);
+
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+
+        for (MovieDto movie : movies) {
+            Object[] row = {
+                    movie.getId(),
+                    movie.getTitle(),
+                    movie.getRunningTime(),
+                    movie.getDirector(),
+                    movie.getActor(),
+                    movie.getGenre(),
+                    movie.getDescription(),
+                    movie.getReleaseDate(),
+                    movie.getRating(),
+                    movie.getAgeLimit()
+            };
+            model.addRow(row);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        tabbedPane.addTab("Movies", scrollPane);
+    }
+
+    private void showMembers(JTabbedPane tabbedPane, List<MemberDto> members) {
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        String[] columnNames = {"ID", "Name", "Phone Number", "Email"};
+        model.setColumnIdentifiers(columnNames);
+
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+
+        for (MemberDto member : members) {
+            Object[] row = {
+                    member.getId(),
+                    member.getName(),
+                    member.getPhoneNumber(),
+                    member.getEmail()
+            };
+            model.addRow(row);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        tabbedPane.addTab("Members", scrollPane);
+    }
+
+    private void showScreens(JTabbedPane tabbedPane, List<ScreenDto> screens) {
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        String[] columnNames = {"ID", "Seat Count", "Is Used", "Column Seats", "Row Seats"};
+        model.setColumnIdentifiers(columnNames);
+
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+
+        for (ScreenDto screen : screens) {
+            Object[] row = {
+                    screen.getId(),
+                    screen.getSeatCount(),
+                    screen.getIsUsed(),
+                    screen.getColumnSeats(),
+                    screen.getRowSeats()
+            };
+            model.addRow(row);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        tabbedPane.addTab("Screens", scrollPane);
+    }
+
+    private void showScreeningSchedules(JTabbedPane tabbedPane, List<ScreeningScheduleDto> schedules) {
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        String[] columnNames = {"ID", "Start Date", "Day of Week", "Round", "Start Time", "Movie ID", "Screen ID", "Selling Price", "Standard Price"};
+        model.setColumnIdentifiers(columnNames);
+
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+
+        for (ScreeningScheduleDto schedule : schedules) {
+            Object[] row = {
+                    schedule.getId(),
+                    schedule.getStartDate(),
+                    schedule.getDayOfWeek(),
+                    schedule.getRound(),
+                    schedule.getStartTime(),
+                    schedule.getMovieId(),
+                    schedule.getScreenId(),
+                    schedule.getSellingPrice(),
+                    schedule.getStandardPrice()
+            };
+            model.addRow(row);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        tabbedPane.addTab("Screening Schedules", scrollPane);
+    }
+
+    private void showSeats(JTabbedPane tabbedPane, List<SeatDto> seats) {
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        String[] columnNames = {"ID", "Is Used", "Row Number", "Column Number", "Screen ID"};
+        model.setColumnIdentifiers(columnNames);
+
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+
+        for (SeatDto seat : seats) {
+            Object[] row = {
+                    seat.getId(),
+                    seat.getIsUsed(),
+                    seat.getRowNum(),
+                    seat.getColumnNum(),
+                    seat.getScreenId()
+            };
+            model.addRow(row);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        tabbedPane.addTab("Seats", scrollPane);
+    }
+
+    private void showReservations(JTabbedPane tabbedPane, List<ReservationDto> reservations) {
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        String[] columnNames = {"ID", "Payment Method", "Payment Status", "Payment Amount", "Payment Date", "Member ID"};
+        model.setColumnIdentifiers(columnNames);
+
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+
+        for (ReservationDto reservation : reservations) {
+            Object[] row = {
+                    reservation.getId(),
+                    reservation.getPaymentMethod(),
+                    reservation.getPaymentStatus(),
+                    reservation.getPaymentAmount(),
+                    reservation.getPaymentDate(),
+                    reservation.getMemberId()
+            };
+            model.addRow(row);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        tabbedPane.addTab("Reservations", scrollPane);
+    }
+
+    private void showTickets(JTabbedPane tabbedPane, List<TicketDto> tickets) {
+        DefaultTableModel model = new DefaultTableModel() {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        String[] columnNames = {"ID", "Is Ticketed", "Screening Schedule ID", "Seat ID", "Reservation ID", "Screen ID"};
+        model.setColumnIdentifiers(columnNames);
+
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+        table.setFillsViewportHeight(true);
+
+        for (TicketDto ticket : tickets) {
+            Object[] row = {
+                    ticket.getId(),
+                    ticket.getIsTicketed(),
+                    ticket.getScreeningScheduleId(),
+                    ticket.getSeatId(),
+                    ticket.getReservationId(),
+                    ticket.getScreenId()
+            };
+            model.addRow(row);
+        }
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        tabbedPane.addTab("Tickets", scrollPane);
+    }
+}
