@@ -1,12 +1,12 @@
 package dao.admin;
 
-import dto.member.MemberDto;
-import dto.movie.MovieDto;
-import dto.reservation.ReservationDto;
-import dto.screen.ScreenDto;
-import dto.screeningschedule.ScreeningScheduleDto;
-import dto.seat.SeatDto;
-import dto.ticket.TicketDto;
+import dto.MemberDto;
+import dto.MovieDto;
+import dto.ReservationDto;
+import dto.ScreenDto;
+import dto.ScreeningScheduleDto;
+import dto.SeatDto;
+import dto.TicketDto;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,17 +29,18 @@ public class AdminTableDao {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                MovieDto movie = new MovieDto();
-                movie.setId(rs.getLong("id"));
-                movie.setTitle(rs.getString("title"));
-                movie.setRunningTime(rs.getInt("running_time"));
-                movie.setDirector(rs.getString("director"));
-                movie.setActor(rs.getString("actor"));
-                movie.setGenre(rs.getString("genre"));
-                movie.setDescription(rs.getString("description"));
-                movie.setReleaseDate(rs.getDate("release_date"));
-                movie.setRating(rs.getDouble("rating"));
-                movie.setAgeLimit(rs.getInt("age_limit"));
+                MovieDto movie = new MovieDto(
+                        rs.getLong("id"),
+                        rs.getString("title"),
+                        rs.getInt("running_time"),
+                        rs.getString("director"),
+                        rs.getString("actor"),
+                        rs.getString("genre"),
+                        rs.getString("description"),
+                        rs.getDate("release_date"),
+                        rs.getDouble("rating"),
+                        rs.getInt("age_limit")
+                );
 
                 movies.add(movie);
             }
@@ -59,11 +60,12 @@ public class AdminTableDao {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                MemberDto member = new MemberDto();
-                member.setId(rs.getLong("id"));
-                member.setName(rs.getString("name"));
-                member.setPhoneNumber(rs.getString("phone_number"));
-                member.setEmail(rs.getString("email"));
+                MemberDto member = new MemberDto(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getString("phone_number"),
+                        rs.getString("email")
+                );
 
                 members.add(member);
             }
@@ -83,12 +85,13 @@ public class AdminTableDao {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                ScreenDto screen = new ScreenDto();
-                screen.setId(rs.getLong("id"));
-                screen.setSeatCount(rs.getInt("seat_count"));
-                screen.setIsUsed(rs.getBoolean("is_used"));
-                screen.setColumnSeats(rs.getInt("column_seats"));
-                screen.setRowSeats(rs.getInt("row_seats"));
+                ScreenDto screen = new ScreenDto(
+                        rs.getLong("id"),
+                        rs.getInt("seat_count"),
+                        rs.getBoolean("is_used"),
+                        rs.getInt("column_seats"),
+                        rs.getInt("row_seats")
+                );
 
                 screens.add(screen);
             }
@@ -108,17 +111,17 @@ public class AdminTableDao {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                ScreeningScheduleDto screeningSchedule = new ScreeningScheduleDto();
-
-                screeningSchedule.setId(rs.getLong("id"));
-                screeningSchedule.setStartDate(rs.getDate("start_date"));
-                screeningSchedule.setDayOfWeek(rs.getString("day_of_week"));
-                screeningSchedule.setRound(rs.getInt("round"));
-                screeningSchedule.setStartTime(rs.getTime("start_time"));
-                screeningSchedule.setMovieId(rs.getLong("movie_id"));
-                screeningSchedule.setScreenId(rs.getLong("screen_id"));
-                screeningSchedule.setSellingPrice(rs.getInt("selling_price"));
-                screeningSchedule.setStandardPrice(rs.getInt("standard_price"));
+                ScreeningScheduleDto screeningSchedule = new ScreeningScheduleDto(
+                        rs.getLong("id"),
+                        rs.getDate("start_date"),
+                        rs.getString("day_of_week"),
+                        rs.getInt("round"),
+                        rs.getTime("start_time"),
+                        rs.getLong("movie_id"),
+                        rs.getLong("screen_id"),
+                        rs.getInt("selling_price"),
+                        rs.getInt("standard_price")
+                );
 
                 screeningSchedules.add(screeningSchedule);
             }
@@ -138,12 +141,13 @@ public class AdminTableDao {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                SeatDto seat = new SeatDto();
-                seat.setId(rs.getLong("id"));
-                seat.setIsUsed(rs.getBoolean("is_used"));
-                seat.setRowNum(rs.getInt("row_num"));
-                seat.setColumnNum(rs.getInt("column_num"));
-                seat.setScreenId(rs.getLong("screen_id"));
+                SeatDto seat = new SeatDto(
+                        rs.getLong("id"),
+                        rs.getBoolean("is_used"),
+                        rs.getInt("row_num"),
+                        rs.getInt("column_num"),
+                        rs.getLong("screen_id")
+                );
 
                 seats.add(seat);
             }
@@ -163,13 +167,14 @@ public class AdminTableDao {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                ReservationDto reservation = new ReservationDto();
-                reservation.setId(rs.getLong("id"));
-                reservation.setPaymentMethod(rs.getString("payment_method"));
-                reservation.setPaymentStatus(rs.getBoolean("payment_status"));
-                reservation.setPaymentAmount(rs.getInt("payment_amount"));
-                reservation.setPaymentDate(rs.getDate("payment_date"));
-                reservation.setMemberId(rs.getLong("member_id"));
+                ReservationDto reservation = new ReservationDto(
+                        rs.getLong("id"),
+                        rs.getString("payment_method"),
+                        rs.getBoolean("payment_status"),
+                        rs.getInt("payment_amount"),
+                        rs.getDate("payment_date"),
+                        rs.getLong("member_id")
+                );
 
                 reservations.add(reservation);
             }
@@ -189,13 +194,14 @@ public class AdminTableDao {
             ResultSet rs = stmt.executeQuery(sql);
 
             while (rs.next()) {
-                TicketDto ticket = new TicketDto();
-                ticket.setId(rs.getLong("id"));
-                ticket.setIsTicketed(rs.getBoolean("is_ticketed"));
-                ticket.setScreeningScheduleId(rs.getLong("screening_schedule_id"));
-                ticket.setSeatId(rs.getLong("seat_id"));
-                ticket.setReservationId(rs.getLong("reservation_id"));
-                ticket.setScreenId(rs.getLong("screen_id"));
+                TicketDto ticket = new TicketDto(
+                        rs.getLong("id"),
+                        rs.getBoolean("is_ticketed"),
+                        rs.getLong("screening_schedule_id"),
+                        rs.getLong("seat_id"),
+                        rs.getLong("reservation_id"),
+                        rs.getLong("screen_id")
+                );
 
                 tickets.add(ticket);
             }

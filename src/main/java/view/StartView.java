@@ -21,7 +21,6 @@ public class StartView extends JFrame {
         getContentPane().add(panel);
         showAdminAndUser(panel);
 
-        // 프레임 표시
         setVisible(true);
     }
 

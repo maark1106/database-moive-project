@@ -3,13 +3,13 @@ package view.admin;
 import dao.admin.AdminInitializeDao;
 import dao.admin.AdminSqlInputDao;
 import dao.admin.AdminTableDao;
-import dto.member.MemberDto;
-import dto.movie.MovieDto;
-import dto.reservation.ReservationDto;
-import dto.screen.ScreenDto;
-import dto.screeningschedule.ScreeningScheduleDto;
-import dto.seat.SeatDto;
-import dto.ticket.TicketDto;
+import dto.MemberDto;
+import dto.MovieDto;
+import dto.ReservationDto;
+import dto.ScreenDto;
+import dto.ScreeningScheduleDto;
+import dto.SeatDto;
+import dto.TicketDto;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,7 +22,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
-
 
 public class AdminStartView extends JFrame {
 
@@ -132,16 +131,16 @@ public class AdminStartView extends JFrame {
 
         for (MovieDto movie : movies) {
             Object[] row = {
-                    movie.getId(),
-                    movie.getTitle(),
-                    movie.getRunningTime(),
-                    movie.getDirector(),
-                    movie.getActor(),
-                    movie.getGenre(),
-                    movie.getDescription(),
-                    movie.getReleaseDate(),
-                    movie.getRating(),
-                    movie.getAgeLimit()
+                    movie.id(),
+                    movie.title(),
+                    movie.runningTime(),
+                    movie.director(),
+                    movie.actor(),
+                    movie.genre(),
+                    movie.description(),
+                    movie.releaseDate(),
+                    movie.rating(),
+                    movie.ageLimit()
             };
             model.addRow(row);
         }
@@ -166,10 +165,10 @@ public class AdminStartView extends JFrame {
 
         for (MemberDto member : members) {
             Object[] row = {
-                    member.getId(),
-                    member.getName(),
-                    member.getPhoneNumber(),
-                    member.getEmail()
+                    member.id(),
+                    member.name(),
+                    member.phoneNumber(),
+                    member.email()
             };
             model.addRow(row);
         }
@@ -194,11 +193,11 @@ public class AdminStartView extends JFrame {
 
         for (ScreenDto screen : screens) {
             Object[] row = {
-                    screen.getId(),
-                    screen.getSeatCount(),
-                    screen.getIsUsed(),
-                    screen.getColumnSeats(),
-                    screen.getRowSeats()
+                    screen.id(),
+                    screen.seatCount(),
+                    screen.isUsed(),
+                    screen.columnSeats(),
+                    screen.rowSeats()
             };
             model.addRow(row);
         }
@@ -223,15 +222,15 @@ public class AdminStartView extends JFrame {
 
         for (ScreeningScheduleDto schedule : schedules) {
             Object[] row = {
-                    schedule.getId(),
-                    schedule.getStartDate(),
-                    schedule.getDayOfWeek(),
-                    schedule.getRound(),
-                    schedule.getStartTime(),
-                    schedule.getMovieId(),
-                    schedule.getScreenId(),
-                    schedule.getSellingPrice(),
-                    schedule.getStandardPrice()
+                    schedule.id(),
+                    schedule.startDate(),
+                    schedule.dayOfWeek(),
+                    schedule.round(),
+                    schedule.startTime(),
+                    schedule.movieId(),
+                    schedule.screenId(),
+                    schedule.sellingPrice(),
+                    schedule.standardPrice()
             };
             model.addRow(row);
         }
@@ -256,11 +255,11 @@ public class AdminStartView extends JFrame {
 
         for (SeatDto seat : seats) {
             Object[] row = {
-                    seat.getId(),
-                    seat.getIsUsed(),
-                    seat.getRowNum(),
-                    seat.getColumnNum(),
-                    seat.getScreenId()
+                    seat.id(),
+                    seat.isUsed(),
+                    seat.rowNum(),
+                    seat.columnNum(),
+                    seat.screenId()
             };
             model.addRow(row);
         }
@@ -285,12 +284,12 @@ public class AdminStartView extends JFrame {
 
         for (ReservationDto reservation : reservations) {
             Object[] row = {
-                    reservation.getId(),
-                    reservation.getPaymentMethod(),
-                    reservation.getPaymentStatus(),
-                    reservation.getPaymentAmount(),
-                    reservation.getPaymentDate(),
-                    reservation.getMemberId()
+                    reservation.id(),
+                    reservation.paymentMethod(),
+                    reservation.paymentStatus(),
+                    reservation.paymentAmount(),
+                    reservation.paymentDate(),
+                    reservation.memberId()
             };
             model.addRow(row);
         }
@@ -315,12 +314,12 @@ public class AdminStartView extends JFrame {
 
         for (TicketDto ticket : tickets) {
             Object[] row = {
-                    ticket.getId(),
-                    ticket.getIsTicketed(),
-                    ticket.getScreeningScheduleId(),
-                    ticket.getSeatId(),
-                    ticket.getReservationId(),
-                    ticket.getScreenId()
+                    ticket.id(),
+                    ticket.isTicketed(),
+                    ticket.screeningScheduleId(),
+                    ticket.seatId(),
+                    ticket.reservationId(),
+                    ticket.screenId()
             };
             model.addRow(row);
         }
