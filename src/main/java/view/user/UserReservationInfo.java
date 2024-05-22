@@ -61,7 +61,7 @@ public class UserReservationInfo extends JFrame {
         });
         buttonPanel.add(refreshButton);
 
-        JButton deleteButton = new JButton("예매 취소");
+        JButton deleteButton = new JButton("예매 삭제");
         deleteButton.addActionListener(e -> {
             if (selectedReservation != null) {
                 int confirmation = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION);
@@ -73,6 +73,26 @@ public class UserReservationInfo extends JFrame {
             }
         });
         buttonPanel.add(deleteButton);
+
+        JButton changeMovieButton = new JButton("다른 영화 선택");
+        changeMovieButton.addActionListener(e -> {
+            if (selectedReservation != null) {
+                openMovieSelectionPage(selectedReservation);
+            } else {
+                JOptionPane.showMessageDialog(this, "예약 정보를 선택하세요", "경고", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(changeMovieButton);
+
+        JButton changeScreeningTimeButton = new JButton("다른 상영 시간 선택");
+        changeScreeningTimeButton.addActionListener(e -> {
+            if (selectedReservation != null) {
+                openScreeningScheduleSelectionPage(selectedReservation);
+            } else {
+                JOptionPane.showMessageDialog(this, "예약 정보를 선택하세요", "경고", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+        buttonPanel.add(changeScreeningTimeButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
     }
@@ -108,6 +128,43 @@ public class UserReservationInfo extends JFrame {
             loadData(); // 데이터 갱신
         } else {
             JOptionPane.showMessageDialog(this, "예매 삭제에 실패했습니다", "오류", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void openMovieSelectionPage(UserReservationInfoDto reservation) {
+        boolean isChanged = false;
+        // 상우 영화 선택 페이지 호출
+        // 성공하면 isChanged true, or false
+
+        if (isChanged) {
+            UserReservationDeleteDao dao = new UserReservationDeleteDao();
+            boolean success = dao.deleteReservation(reservation.reservationId());
+
+            if (success) {
+                JOptionPane.showMessageDialog(this, "예매가 변경되었습니다", "성공", JOptionPane.INFORMATION_MESSAGE);
+                loadData(); // 데이터 갱신
+            } else {
+                JOptionPane.showMessageDialog(this, "예매 변경이 취소되었습니다", "취소", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }
+
+    private void openScreeningScheduleSelectionPage(UserReservationInfoDto reservation) {
+        boolean isChanged = false;
+        // 상우 상영 시간 선택 페이지 호출
+        // 여기서 movie title 넘겨줘서 해당 영화의 상영 정보 페이지 뜨게 하기
+        // 성공하면 isChanged true, or false
+
+        if (isChanged) {
+            UserReservationDeleteDao dao = new UserReservationDeleteDao();
+            boolean success = dao.deleteReservation(reservation.reservationId());
+
+            if (success) {
+                JOptionPane.showMessageDialog(this, "상영 시간이 변경되었습니다", "성공", JOptionPane.INFORMATION_MESSAGE);
+                loadData(); // 데이터 갱신
+            } else {
+                JOptionPane.showMessageDialog(this, "상영 시간 변경이 취소되었습니다", "취소", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
