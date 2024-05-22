@@ -84,6 +84,7 @@ public class UserReservationInfo extends JFrame {
     }
 
     public static void main(String[] args) {
+        //상우가 호출해줘야 할 부분(user의 예매 정보 목록 출력)
         UserReservationInfo userReservationInfo = new UserReservationInfo();
         userReservationInfo.setVisible(true);
     }

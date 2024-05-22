@@ -24,7 +24,7 @@ public class UserReservationDetails extends JDialog {
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return false; // 모든 셀을 수정 불가능하게 설정
+                return false;
             }
         };
         table = new JTable(tableModel);
