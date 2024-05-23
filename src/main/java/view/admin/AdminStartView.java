@@ -10,25 +10,20 @@ import dto.ScreenDto;
 import dto.ScreeningScheduleDto;
 import dto.SeatDto;
 import dto.TicketDto;
-import java.awt.BorderLayout;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
 public class AdminStartView extends JFrame {
 
     public AdminStartView() {
         JFrame adminFrame = new JFrame("Admin Panel");
         adminFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        adminFrame.setSize(500, 200);
+        adminFrame.setSize(600, 200);
         adminFrame.setLocationRelativeTo(null);
 
         JPanel adminPanel = new JPanel();
@@ -53,11 +48,22 @@ public class AdminStartView extends JFrame {
             }
         });
 
-        // 입력/삭제 버튼
-        JButton inputDeleteButton = new JButton("입력/삭제/변경");
-        inputDeleteButton.setBounds(150, 30, 120, 30);
-        panel.add(inputDeleteButton);
-        inputDeleteButton.addActionListener(new ActionListener() {
+        // 입력 버튼
+        JButton inputButton = new JButton("입력");
+        inputButton.setBounds(150, 30, 100, 30);
+        panel.add(inputButton);
+        inputButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new InsertDataView();
+            }
+        });
+
+        // 삭제/변경 버튼
+        JButton deleteUpdateButton = new JButton("삭제/변경");
+        deleteUpdateButton.setBounds(270, 30, 100, 30);
+        panel.add(deleteUpdateButton);
+        deleteUpdateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 AdminSqlInputDao dao = new AdminSqlInputDao();
@@ -68,7 +74,7 @@ public class AdminStartView extends JFrame {
 
         // 전체 테이블 보기 버튼
         JButton viewTableButton = new JButton("전체 테이블 보기");
-        viewTableButton.setBounds(290, 30, 150, 30);
+        viewTableButton.setBounds(390, 30, 150, 30);
         panel.add(viewTableButton);
         viewTableButton.addActionListener(new ActionListener() {
             @Override
