@@ -9,6 +9,11 @@ public record UserReservationInfoDto(
         int rowNum,
         int columnNum,
         int sellingPrice,
-        long reservationId
+        long reservationId,
+        long seatId,
+        long memberId,
+        long movieId // 추가
 ) {
 }
+
+

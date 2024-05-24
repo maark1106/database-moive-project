@@ -17,8 +17,15 @@ public class UserReservationInfo extends JFrame {
     private DefaultTableModel tableModel;
     private UserReservationInfoDto selectedReservation;
     private Map<Integer, UserReservationInfoDto> reservationMap;
-
+    private JFrame userStartViewFrame;
     public UserReservationInfo() {
+        reservationMap = new HashMap<>();
+        initUI();
+        loadData();
+    }
+
+    public UserReservationInfo(JFrame userStartViewFrame) {
+        this.userStartViewFrame = userStartViewFrame;
         reservationMap = new HashMap<>();
         initUI();
         loadData();
@@ -28,7 +35,7 @@ public class UserReservationInfo extends JFrame {
         setTitle("User Reservation Info");
         setSize(800, 400);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         String[] columnNames = {"영화 제목", "상영 날짜", "상영관 번호", "좌석 열 번호", "좌석 행 번호", "판매 가격"};
@@ -95,11 +102,20 @@ public class UserReservationInfo extends JFrame {
         buttonPanel.add(changeScreeningTimeButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
+
+        // UserReservationInfo가 닫힐 때 UserStartView를 다시 보이게 설정
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                userStartViewFrame.setVisible(true);
+            }
+        });
     }
 
     private void loadData() {
+        long memberId = 1L; // 필요한 경우 적절하게 설정하세요
         UserReservationInfoDao dao = new UserReservationInfoDao();
-        List<UserReservationInfoDto> reservations = dao.getUserReservationInfo();
+        List<UserReservationInfoDto> reservations = dao.getUserReservationInfo(memberId);
 
         tableModel.setRowCount(0);
         reservationMap.clear();
@@ -132,49 +148,17 @@ public class UserReservationInfo extends JFrame {
     }
 
     private void openMovieSelectionPage(UserReservationInfoDto reservation) {
-        boolean isChanged = false;
-        // 상우 영화 선택 페이지 호출
-        // 성공하면 isChanged true, or false
-
-        if (isChanged) {
-            UserReservationDeleteDao dao = new UserReservationDeleteDao();
-            boolean success = dao.deleteReservation(reservation.reservationId());
-
-            if (success) {
-                JOptionPane.showMessageDialog(this, "예매가 변경되었습니다", "성공", JOptionPane.INFORMATION_MESSAGE);
-                loadData(); // 데이터 갱신
-            } else {
-                JOptionPane.showMessageDialog(this, "예매 변경이 취소되었습니다", "취소", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        new SearchMovieView(reservation.memberId(), this, reservation).setVisible(true);
+        setVisible(false); // 현재 창 숨기기
     }
 
     private void openScreeningScheduleSelectionPage(UserReservationInfoDto reservation) {
-        boolean isChanged = false;
-        // 상우 상영 시간 선택 페이지 호출
-        // 여기서 movie title 넘겨줘서 해당 영화의 상영 정보 페이지 뜨게 하기
-        // 성공하면 isChanged true, or false
-
-        if (isChanged) {
-            UserReservationDeleteDao dao = new UserReservationDeleteDao();
-            boolean success = dao.deleteReservation(reservation.reservationId());
-
-            if (success) {
-                JOptionPane.showMessageDialog(this, "상영 시간이 변경되었습니다", "성공", JOptionPane.INFORMATION_MESSAGE);
-                loadData(); // 데이터 갱신
-            } else {
-                JOptionPane.showMessageDialog(this, "상영 시간 변경이 취소되었습니다", "취소", JOptionPane.ERROR_MESSAGE);
-            }
-        }
+        new MovieSchedulingInfoView(reservation.movieId(), reservation.memberId(), this, reservation).setVisible(true);
+        setVisible(false); // 현재 창 숨기기
     }
 
     private void showReservationDetails(UserReservationInfoDto reservation) {
         UserReservationDetails details = new UserReservationDetails(this, reservation);
         details.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-        UserReservationInfo userReservationInfo = new UserReservationInfo();
-        userReservationInfo.setVisible(true);
     }
 }
