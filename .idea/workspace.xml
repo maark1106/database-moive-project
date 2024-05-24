@@ -4,9 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="871a629a-8193-47f6-b1be-05e31b40cecc" name="Changes" comment="feat : 예매한 영화에 대해 예매 취소 기능 추가">
+    <list default="true" id="871a629a-8193-47f6-b1be-05e31b40cecc" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/user/SearchMovieView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/18367a7c-f76d-41d1-8e0d-981ba0d2aaa8.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/18367a7c-f76d-41d1-8e0d-981ba0d2aaa8.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/5106676c-cee6-46e6-a6a8-d54b7e49099d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/5106676c-cee6-46e6-a6a8-d54b7e49099d.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dao/user/UserReservationInfoDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dao/user/UserReservationInfoDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dto/UserReservationInfoDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dto/UserReservationInfoDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/StartView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/StartView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/user/SearchMovieService.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/view/user/UserReservationInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/user/UserReservationInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/user/UserStartView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/user/UserStartView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -50,27 +58,27 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/mark1/Desktop/학교활동/3학년/3-1/데이터베이스/database-moive-project/src/main/java",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "C:/Users/mark1/Desktop/학교활동/3학년/3-1/데이터베이스/database-moive-project/src/main/java/org/example/Main.java",
-    "settings.editor.selected.configurable": "File.Encoding",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mark1/Desktop/학교활동/3학년/3-1/데이터베이스/database-moive-project/src/main/java&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;onboarding.tips.debug.path&quot;: &quot;C:/Users/mark1/Desktop/학교활동/3학년/3-1/데이터베이스/database-moive-project/src/main/java/org/example/Main.java&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\mark1\Desktop\학교활동\3학년\3-1\데이터베이스\database-moive-project\src\main\java" />
@@ -79,7 +87,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserReservationInfo">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
       <module name="database-moive-project.main" />
@@ -123,6 +131,8 @@
       <updated>1716048618217</updated>
       <workItem from="1716048619606" duration="855000" />
       <workItem from="1716344371986" duration="10206000" />
+      <workItem from="1716461799071" duration="9846000" />
+      <workItem from="1716513614836" duration="11215000" />
     </task>
     <task id="LOCAL-00001" summary="feat : 사용자가 예매한 영화 목록 조회 기능 추가">
       <option name="closed" value="true" />

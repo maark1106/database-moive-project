@@ -10,7 +10,6 @@ import view.user.UserStartView;
 
 public class StartView extends JFrame {
 
-
     public StartView() {
         setTitle("User & Admin");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -36,6 +35,7 @@ public class StartView extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AdminStartView();
+                setVisible(false); // StartView 숨기기
             }
         });
 
@@ -47,9 +47,9 @@ public class StartView extends JFrame {
         userButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new UserStartView();
+                new UserStartView(StartView.this).setVisible(true); // StartView 숨기기
+                setVisible(false);
             }
         });
-
     }
 }
