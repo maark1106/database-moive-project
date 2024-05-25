@@ -10,6 +10,7 @@ import dto.ScreenDto;
 import dto.ScreeningScheduleDto;
 import dto.SeatDto;
 import dto.TicketDto;
+import view.StartView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -20,17 +21,25 @@ import java.util.List;
 
 public class AdminStartView extends JFrame {
 
-    public AdminStartView() {
-        JFrame adminFrame = new JFrame("Admin Panel");
-        adminFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        adminFrame.setSize(600, 200);
-        adminFrame.setLocationRelativeTo(null);
+    public AdminStartView(StartView parent) {
+        setTitle("Admin Panel");
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setSize(600, 200);
+        setLocationRelativeTo(null);
 
         JPanel adminPanel = new JPanel();
-        adminFrame.getContentPane().add(adminPanel);
-        adminButton(adminPanel); // 관리자 패널에 버튼 추가
+        adminPanel.setLayout(null);
+        getContentPane().add(adminPanel);
+        adminButton(adminPanel);
 
-        adminFrame.setVisible(true);
+        setVisible(true);
+
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent windowEvent) {
+                parent.setVisible(true);
+            }
+        });
     }
 
     private void adminButton(JPanel panel) {

@@ -34,7 +34,7 @@ public class StartView extends JFrame {
         adminButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AdminStartView();
+                new AdminStartView(StartView.this).setVisible(true);
                 setVisible(false); // StartView 숨기기
             }
         });
