@@ -4,11 +4,7 @@ import dao.user.ScreenDao;
 import dao.user.SeatDao;
 import dao.user.UserReservationCreateDao;
 import dao.user.UserReservationDeleteDao;
-import dto.ReservationDto;
-import dto.ScreenDto;
-import dto.SeatDto;
-import dto.TicketDto;
-import dto.UserReservationInfoDto;
+import dto.*;
 import view.StartView;
 
 import javax.swing.*;
@@ -67,7 +63,6 @@ public class ShowSeat extends JFrame {
         screenPanel.add(new JLabel("SCREEN", SwingConstants.CENTER) {
             {
                 setForeground(Color.WHITE);
-                setFont(new Font("Arial", Font.BOLD, 20));
             }
         });
         add(screenPanel, BorderLayout.NORTH);
@@ -104,16 +99,14 @@ public class ShowSeat extends JFrame {
             seatPanel.add(seatButton, gbc);
         }
 
-        // 좌석 패널 하단에 Entrance 추가
         JPanel bottomPanel = new JPanel(new BorderLayout());
         JLabel entranceLabel = new JLabel("ENTRANCE", SwingConstants.LEFT);
-        entranceLabel.setFont(new Font("Arial", Font.BOLD, 14));
         bottomPanel.add(entranceLabel, BorderLayout.WEST);
 
         add(new JScrollPane(seatPanel), BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
 
-        JButton reserveButton = new JButton("좌석 예매하기");
+        JButton reserveButton = createStyledButton("좌석 예매하기");
         reserveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -149,7 +142,6 @@ public class ShowSeat extends JFrame {
         SeatDao seatDao = new SeatDao();
         UserReservationDeleteDao deleteDao = new UserReservationDeleteDao();
 
-        // Create Reservation
         ReservationDto reservation = new ReservationDto(null, "Credit Card", true, selectedSeats.size() * 10000, new Date(System.currentTimeMillis()), memberId);
         Long reservationId = reservationDao.createReservation(reservation);
 
@@ -158,7 +150,6 @@ public class ShowSeat extends JFrame {
             return;
         }
 
-        // Update Seat and Create Ticket
         boolean allSuccess = true;
         for (SeatDto seat : selectedSeats) {
             if (!seatDao.updateSeatUsage(seat.id(), true)) {
@@ -174,7 +165,6 @@ public class ShowSeat extends JFrame {
 
         if (allSuccess) {
             if (reservationToChange != null) {
-                // 이전 예약 정보 삭제
                 if (!seatDao.updateSeatUsage(reservationToChange.seatId(), false) || !deleteDao.deleteReservation(reservationToChange.reservationId())) {
                     JOptionPane.showMessageDialog(this, "이전 예약 삭제에 실패했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
                     return;
@@ -184,11 +174,20 @@ public class ShowSeat extends JFrame {
             } else {
                 JOptionPane.showMessageDialog(this, "예매가 성공적으로 완료되었습니다!", "성공", JOptionPane.INFORMATION_MESSAGE);
             }
-            new UserStartView(new StartView()).setVisible(true); // UserStartView 다시 표시
-            previousFrame.dispose(); // 이전 창 닫기
+            new UserStartView(new StartView()).setVisible(true);
+            previousFrame.dispose();
             dispose();
         } else {
             JOptionPane.showMessageDialog(this, "예매 처리 중 오류가 발생했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
     }
 }

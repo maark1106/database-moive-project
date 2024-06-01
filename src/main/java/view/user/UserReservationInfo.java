@@ -6,6 +6,7 @@ import dto.UserReservationInfoDto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +19,6 @@ public class UserReservationInfo extends JFrame {
     private UserReservationInfoDto selectedReservation;
     private Map<Integer, UserReservationInfoDto> reservationMap;
     private JFrame userStartViewFrame;
-    public UserReservationInfo() {
-        reservationMap = new HashMap<>();
-        initUI();
-        loadData();
-    }
 
     public UserReservationInfo(JFrame userStartViewFrame) {
         this.userStartViewFrame = userStartViewFrame;
@@ -46,6 +42,7 @@ public class UserReservationInfo extends JFrame {
             }
         };
         table = new JTable(tableModel);
+        styleTable(table);
         table.setFillsViewportHeight(true);
 
         table.getSelectionModel().addListSelectionListener(event -> {
@@ -58,7 +55,7 @@ public class UserReservationInfo extends JFrame {
         add(new JScrollPane(table), BorderLayout.CENTER);
 
         JPanel buttonPanel = new JPanel();
-        JButton refreshButton = new JButton("예매 정보 자세히 보기");
+        JButton refreshButton = createStyledButton("예매 정보 자세히 보기");
         refreshButton.addActionListener(e -> {
             if (selectedReservation != null) {
                 showReservationDetails(selectedReservation);
@@ -68,7 +65,7 @@ public class UserReservationInfo extends JFrame {
         });
         buttonPanel.add(refreshButton);
 
-        JButton deleteButton = new JButton("예매 삭제");
+        JButton deleteButton = createStyledButton("예매 삭제");
         deleteButton.addActionListener(e -> {
             if (selectedReservation != null) {
                 int confirmation = JOptionPane.showConfirmDialog(this, "정말 삭제하시겠습니까?", "확인", JOptionPane.YES_NO_OPTION);
@@ -81,7 +78,7 @@ public class UserReservationInfo extends JFrame {
         });
         buttonPanel.add(deleteButton);
 
-        JButton changeMovieButton = new JButton("다른 영화 선택");
+        JButton changeMovieButton = createStyledButton("다른 영화 선택");
         changeMovieButton.addActionListener(e -> {
             if (selectedReservation != null) {
                 openMovieSelectionPage(selectedReservation);
@@ -91,7 +88,7 @@ public class UserReservationInfo extends JFrame {
         });
         buttonPanel.add(changeMovieButton);
 
-        JButton changeScreeningTimeButton = new JButton("다른 상영 시간 선택");
+        JButton changeScreeningTimeButton = createStyledButton("다른 상영 시간 선택");
         changeScreeningTimeButton.addActionListener(e -> {
             if (selectedReservation != null) {
                 openScreeningScheduleSelectionPage(selectedReservation);
@@ -103,7 +100,6 @@ public class UserReservationInfo extends JFrame {
 
         add(buttonPanel, BorderLayout.SOUTH);
 
-        // UserReservationInfo가 닫힐 때 UserStartView를 다시 보이게 설정
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
@@ -160,5 +156,23 @@ public class UserReservationInfo extends JFrame {
     private void showReservationDetails(UserReservationInfoDto reservation) {
         UserReservationDetails details = new UserReservationDetails(this, reservation);
         details.setVisible(true);
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
+    }
+
+    private void styleTable(JTable table) {
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(70, 130, 180));
+        header.setForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.setBackground(new Color(245, 245, 245));
+        table.setGridColor(Color.GRAY);
     }
 }

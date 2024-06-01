@@ -6,6 +6,7 @@ import dto.UserReservationInfoDto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -51,43 +52,61 @@ public class SearchMovieView extends JFrame {
             }
         });
 
-        JPanel searchPanel = new JPanel(new GridLayout(5, 2));
+        JPanel searchPanel = new JPanel(new GridBagLayout());
+        searchPanel.setBackground(new Color(45, 45, 45));
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        searchPanel.add(new JLabel("영화명:"));
-        titleField = new JTextField();
-        searchPanel.add(titleField);
+        searchPanel.add(createStyledLabel("영화명:"), gbc);
+        titleField = createStyledTextField();
+        gbc.gridx = 1;
+        searchPanel.add(titleField, gbc);
 
-        searchPanel.add(new JLabel("감독명:"));
-        directorField = new JTextField();
-        searchPanel.add(directorField);
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        searchPanel.add(createStyledLabel("감독명:"), gbc);
+        directorField = createStyledTextField();
+        gbc.gridx = 1;
+        searchPanel.add(directorField, gbc);
 
-        searchPanel.add(new JLabel("배우명:"));
-        actorField = new JTextField();
-        searchPanel.add(actorField);
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        searchPanel.add(createStyledLabel("배우명:"), gbc);
+        actorField = createStyledTextField();
+        gbc.gridx = 1;
+        searchPanel.add(actorField, gbc);
 
-        searchPanel.add(new JLabel("장르:"));
-        genreField = new JTextField();
-        searchPanel.add(genreField);
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        searchPanel.add(createStyledLabel("장르:"), gbc);
+        genreField = createStyledTextField();
+        gbc.gridx = 1;
+        searchPanel.add(genreField, gbc);
 
-        JButton searchButton = new JButton("조회");
+        JButton searchButton = createStyledButton("조회");
+        gbc.gridx = 1;
+        gbc.gridy = 4;
+        gbc.anchor = GridBagConstraints.CENTER;
+        searchPanel.add(searchButton, gbc);
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 searchMovies();
             }
         });
-        searchPanel.add(searchButton);
 
         add(searchPanel, BorderLayout.NORTH);
 
         String[] columnNames = {"ID", "영화명", "상영시간", "감독명", "배우명", "장르", "설명", "개봉일", "평점", "연령제한"};
         tableModel = new DefaultTableModel(columnNames, 0);
         resultTable = new JTable(tableModel);
+        styleTable(resultTable);
         resultTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         add(new JScrollPane(resultTable), BorderLayout.CENTER);
 
-        JButton showScheduleButton = new JButton("영화 상영 일정 확인");
+        JButton showScheduleButton = createStyledButton("영화 상영 일정 확인");
         showScheduleButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -133,5 +152,35 @@ public class SearchMovieView extends JFrame {
         Long movieId = (Long) tableModel.getValueAt(selectedRow, 0);
         new MovieSchedulingInfoView(movieId, memberId, this, reservationToChange).setVisible(true);
         setVisible(false); // 현재 창 숨기기
+    }
+
+    private void styleTable(JTable table) {
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(70, 130, 180));
+        header.setForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.setBackground(new Color(245, 245, 245));
+        table.setGridColor(Color.GRAY);
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
+    }
+
+    private JLabel createStyledLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setForeground(Color.WHITE);
+        return label;
+    }
+
+    private JTextField createStyledTextField() {
+        JTextField textField = new JTextField();
+        textField.setPreferredSize(new Dimension(200, 25)); // 입력 칸 크기를 설정
+        return textField;
     }
 }

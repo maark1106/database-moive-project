@@ -6,6 +6,7 @@ import dto.UserReservationInfoDto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,13 +45,14 @@ public class MovieSchedulingInfoView extends JFrame {
         String[] columnNames = {"ID", "Start Date", "Day of Week", "Round", "Start Time", "Selling Price", "Standard Price"};
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
+        styleTable(table);
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         loadSchedules(movieId);
 
         add(new JScrollPane(table), BorderLayout.CENTER);
 
-        JButton bookSeatButton = new JButton("좌석 예매");
+        JButton bookSeatButton = createStyledButton("좌석 예매");
         bookSeatButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,5 +90,23 @@ public class MovieSchedulingInfoView extends JFrame {
         ScreeningScheduleDto selectedSchedule = schedules.get(selectedRow);
         new ShowSeat(selectedSchedule.screenId(), selectedSchedule.movieId(), selectedSchedule.id(), memberId, this, reservationToChange).setVisible(true);
         setVisible(false); // 현재 창 숨기기
+    }
+
+    private void styleTable(JTable table) {
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(70, 130, 180));
+        header.setForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.setBackground(new Color(245, 245, 245));
+        table.setGridColor(Color.GRAY);
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
     }
 }

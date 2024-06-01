@@ -6,6 +6,7 @@ import dto.UserReservationInfoDto;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class UserReservationDetails extends JDialog {
             }
         };
         table = new JTable(tableModel);
+        styleTable(table);
         table.setFillsViewportHeight(true);
 
         add(new JScrollPane(table), BorderLayout.CENTER);
@@ -55,5 +57,14 @@ public class UserReservationDetails extends JDialog {
             };
             tableModel.addRow(rowData);
         }
+    }
+
+    private void styleTable(JTable table) {
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(70, 130, 180));
+        header.setForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.setBackground(new Color(245, 245, 245));
+        table.setGridColor(Color.GRAY);
     }
 }

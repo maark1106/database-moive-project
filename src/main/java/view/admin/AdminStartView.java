@@ -3,17 +3,12 @@ package view.admin;
 import dao.admin.AdminInitializeDao;
 import dao.admin.AdminSqlInputDao;
 import dao.admin.AdminTableDao;
-import dto.MemberDto;
-import dto.MovieDto;
-import dto.ReservationDto;
-import dto.ScreenDto;
-import dto.ScreeningScheduleDto;
-import dto.SeatDto;
-import dto.TicketDto;
+import dto.*;
 import view.StartView;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,7 +23,8 @@ public class AdminStartView extends JFrame {
         setLocationRelativeTo(null);
 
         JPanel adminPanel = new JPanel();
-        adminPanel.setLayout(null);
+        adminPanel.setLayout(new GridBagLayout());
+        adminPanel.setBackground(new Color(45, 45, 45));
         getContentPane().add(adminPanel);
         adminButton(adminPanel);
 
@@ -43,12 +39,13 @@ public class AdminStartView extends JFrame {
     }
 
     private void adminButton(JPanel panel) {
-        panel.setLayout(null);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        // 초기화 버튼
-        JButton initializeButton = new JButton("초기화");
-        initializeButton.setBounds(30, 30, 100, 30);
-        panel.add(initializeButton);
+        JButton initializeButton = createStyledButton("초기화");
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        panel.add(initializeButton, gbc);
         initializeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -57,10 +54,9 @@ public class AdminStartView extends JFrame {
             }
         });
 
-        // 입력 버튼
-        JButton inputButton = new JButton("입력");
-        inputButton.setBounds(150, 30, 100, 30);
-        panel.add(inputButton);
+        JButton inputButton = createStyledButton("입력");
+        gbc.gridx = 1;
+        panel.add(inputButton, gbc);
         inputButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,10 +64,9 @@ public class AdminStartView extends JFrame {
             }
         });
 
-        // 삭제/변경 버튼
-        JButton deleteUpdateButton = new JButton("삭제/변경");
-        deleteUpdateButton.setBounds(270, 30, 100, 30);
-        panel.add(deleteUpdateButton);
+        JButton deleteUpdateButton = createStyledButton("삭제/변경");
+        gbc.gridx = 2;
+        panel.add(deleteUpdateButton, gbc);
         deleteUpdateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,10 +76,9 @@ public class AdminStartView extends JFrame {
             }
         });
 
-        // 전체 테이블 보기 버튼
-        JButton viewTableButton = new JButton("전체 테이블 보기");
-        viewTableButton.setBounds(390, 30, 150, 30);
-        panel.add(viewTableButton);
+        JButton viewTableButton = createStyledButton("전체 테이블 보기");
+        gbc.gridx = 3;
+        panel.add(viewTableButton, gbc);
         viewTableButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -103,6 +97,15 @@ public class AdminStartView extends JFrame {
                 tableFrame.setVisible(true);
             }
         });
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
     }
 
     private void showAllTables(JTabbedPane tabbedPane) {
@@ -130,6 +133,15 @@ public class AdminStartView extends JFrame {
         showTickets(tabbedPane, tickets);
     }
 
+    private void styleTable(JTable table) {
+        JTableHeader header = table.getTableHeader();
+        header.setBackground(new Color(70, 130, 180));
+        header.setForeground(Color.WHITE);
+        table.setRowHeight(25);
+        table.setBackground(new Color(245, 245, 245));
+        table.setGridColor(Color.GRAY);
+    }
+
     private void showMovies(JTabbedPane tabbedPane, List<MovieDto> movies) {
         DefaultTableModel model = new DefaultTableModel() {
             @Override
@@ -141,6 +153,7 @@ public class AdminStartView extends JFrame {
         model.setColumnIdentifiers(columnNames);
 
         JTable table = new JTable(model);
+        styleTable(table);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setFillsViewportHeight(true);
 
@@ -175,6 +188,7 @@ public class AdminStartView extends JFrame {
         model.setColumnIdentifiers(columnNames);
 
         JTable table = new JTable(model);
+        styleTable(table);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setFillsViewportHeight(true);
 
@@ -203,6 +217,7 @@ public class AdminStartView extends JFrame {
         model.setColumnIdentifiers(columnNames);
 
         JTable table = new JTable(model);
+        styleTable(table);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setFillsViewportHeight(true);
 
@@ -232,6 +247,7 @@ public class AdminStartView extends JFrame {
         model.setColumnIdentifiers(columnNames);
 
         JTable table = new JTable(model);
+        styleTable(table);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setFillsViewportHeight(true);
 
@@ -265,6 +281,7 @@ public class AdminStartView extends JFrame {
         model.setColumnIdentifiers(columnNames);
 
         JTable table = new JTable(model);
+        styleTable(table);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setFillsViewportHeight(true);
 
@@ -294,6 +311,7 @@ public class AdminStartView extends JFrame {
         model.setColumnIdentifiers(columnNames);
 
         JTable table = new JTable(model);
+        styleTable(table);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setFillsViewportHeight(true);
 
@@ -324,6 +342,7 @@ public class AdminStartView extends JFrame {
         model.setColumnIdentifiers(columnNames);
 
         JTable table = new JTable(model);
+        styleTable(table);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
         table.setFillsViewportHeight(true);
 

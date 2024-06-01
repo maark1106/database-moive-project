@@ -1,10 +1,10 @@
 package view;
 
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
+
 import view.admin.AdminStartView;
 import view.user.UserStartView;
 
@@ -17,6 +17,8 @@ public class StartView extends JFrame {
         setLocationRelativeTo(null);
 
         JPanel panel = new JPanel();
+        panel.setLayout(null);
+        panel.setBackground(new Color(45, 45, 45));
         getContentPane().add(panel);
         showAdminAndUser(panel);
 
@@ -24,10 +26,7 @@ public class StartView extends JFrame {
     }
 
     private void showAdminAndUser(JPanel panel) {
-        panel.setLayout(null);
-
-        // 관리자 버튼
-        JButton adminButton = new JButton("관리자");
+        JButton adminButton = createStyledButton("관리자");
         adminButton.setBounds(160, 60, 100, 30);
         panel.add(adminButton);
 
@@ -39,8 +38,7 @@ public class StartView extends JFrame {
             }
         });
 
-        // 사용자 버튼
-        JButton userButton = new JButton("사용자");
+        JButton userButton = createStyledButton("사용자");
         userButton.setBounds(30, 60, 100, 30);
         panel.add(userButton);
 
@@ -51,5 +49,14 @@ public class StartView extends JFrame {
                 setVisible(false);
             }
         });
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
     }
 }

@@ -13,21 +13,18 @@ public class UserStartView extends JFrame {
     public UserStartView(JFrame startViewFrame) {
         this.startViewFrame = startViewFrame;
 
-        // 윈도우 타이틀 설정
         setTitle("User Start View");
 
-        // 기본 레이아웃 설정
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(400, 300);
         setLocationRelativeTo(null);
 
-        // 패널 생성 및 레이아웃 설정
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
+        panel.setBackground(new Color(45, 45, 45));
         GridBagConstraints constraints = new GridBagConstraints();
 
-        // "영화 예매" 버튼 생성 및 이벤트 리스너 추가
-        JButton bookMovieButton = new JButton("영화 예매");
+        JButton bookMovieButton = createStyledButton("영화 예매");
         bookMovieButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,8 +34,7 @@ public class UserStartView extends JFrame {
             }
         });
 
-        // "예매 정보 확인" 버튼 생성 및 이벤트 리스너 추가
-        JButton checkReservationButton = new JButton("예매 정보 확인");
+        JButton checkReservationButton = createStyledButton("예매 정보 확인");
         checkReservationButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,7 +44,6 @@ public class UserStartView extends JFrame {
             }
         });
 
-        // 버튼을 패널에 추가
         constraints.insets = new Insets(10, 10, 10, 10);
 
         constraints.gridx = 0;
@@ -59,18 +54,24 @@ public class UserStartView extends JFrame {
         constraints.gridy = 1;
         panel.add(checkReservationButton, constraints);
 
-        // 패널을 프레임에 추가
         add(panel);
 
-        // 프레임 표시
         setVisible(true);
 
-        // UserStartView가 닫힐 때 StartView를 다시 보이게 설정
         addWindowListener(new java.awt.event.WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent windowEvent) {
                 startViewFrame.setVisible(true);
             }
         });
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
     }
 }

@@ -29,11 +29,12 @@ public class InsertDataView extends JFrame {
             }
         });
 
-        inputPanel = new JPanel(new GridLayout(0, 2));
+        inputPanel = new JPanel(new GridBagLayout());
+        inputPanel.setBackground(new Color(45, 45, 45));
         selectedTable = tables[0];
         setupInputFields(selectedTable);
 
-        JButton insertButton = new JButton("입력");
+        JButton insertButton = createStyledButton("입력");
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -50,6 +51,8 @@ public class InsertDataView extends JFrame {
 
     private void setupInputFields(String table) {
         inputPanel.removeAll();
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
 
         String[] fieldNames;
         switch (table) {
@@ -81,15 +84,39 @@ public class InsertDataView extends JFrame {
 
         inputFields = new JTextField[fieldNames.length];
         for (int i = 0; i < fieldNames.length; i++) {
-            JLabel label = new JLabel(fieldNames[i] + ":");
-            JTextField textField = new JTextField();
-            inputPanel.add(label);
-            inputPanel.add(textField);
+            JLabel label = createStyledLabel(fieldNames[i] + ":");
+            JTextField textField = createStyledTextField();
+            gbc.gridx = 0;
+            gbc.gridy = i;
+            inputPanel.add(label, gbc);
+            gbc.gridx = 1;
+            inputPanel.add(textField, gbc);
             inputFields[i] = textField;
         }
 
         inputPanel.revalidate();
         inputPanel.repaint();
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(70, 130, 180));
+        button.setForeground(Color.WHITE);
+        button.setFocusPainted(false);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+        return button;
+    }
+
+    private JLabel createStyledLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setForeground(Color.WHITE);
+        return label;
+    }
+
+    private JTextField createStyledTextField() {
+        JTextField textField = new JTextField();
+        textField.setPreferredSize(new Dimension(200, 25)); // 입력 칸 크기를 설정
+        return textField;
     }
 
     private void insertData() {
