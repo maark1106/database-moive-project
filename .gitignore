@@ -10,7 +10,10 @@ build/
 .idea/compiler.xml
 .idea/libraries/
 .idea/workspace.xml
+<<<<<<< HEAD
 
+=======
+>>>>>>> 927cffd5849355ba463eba0ed6d486d4a3497eb5
 *.iws
 *.iml
 *.ipr
