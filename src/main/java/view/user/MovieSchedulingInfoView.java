@@ -10,6 +10,7 @@ import javax.swing.table.JTableHeader;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.List;
 
 public class MovieSchedulingInfoView extends JFrame {
@@ -88,6 +89,14 @@ public class MovieSchedulingInfoView extends JFrame {
             return;
         }
         ScreeningScheduleDto selectedSchedule = schedules.get(selectedRow);
+
+        // 상영일이 지난 경우 예매 불가 처리
+        Date currentDate = utils.CurrentDate.date;
+        if (selectedSchedule.startDate().before(currentDate)) {
+            JOptionPane.showMessageDialog(this, "상영일이 지났습니다. 다른 일정을 선택해주세요.", "경고", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         new ShowSeat(selectedSchedule.screenId(), selectedSchedule.movieId(), selectedSchedule.id(), memberId, this, reservationToChange).setVisible(true);
         setVisible(false); // 현재 창 숨기기
     }

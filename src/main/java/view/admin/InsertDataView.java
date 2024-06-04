@@ -1,7 +1,6 @@
 package view.admin;
 
 import dao.admin.AdminSqlInputDao;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -66,7 +65,7 @@ public class InsertDataView extends JFrame {
                 fieldNames = new String[]{"Start Date", "Day of Week", "Round", "Start Time", "Movie ID", "Screen ID", "Selling Price", "Standard Price"};
                 break;
             case "seat":
-                fieldNames = new String[]{"Is Used", "Row Number", "Column Number", "Screen ID"};
+                fieldNames = new String[]{"Is Used", "Row Number", "Column Number", "Screen ID", "Screening Schedule ID"};
                 break;
             case "member":
                 fieldNames = new String[]{"Name", "Phone Number", "Email"};
@@ -125,27 +124,31 @@ public class InsertDataView extends JFrame {
 
         String[] fieldNames = getFieldNames(selectedTable);
 
-        for (int i = 0; i < inputFields.length; i++) {
-            String value = inputFields[i].getText();
-            if (value.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "모든 필드를 입력하세요", "오류", JOptionPane.ERROR_MESSAGE);
-                return;
+        try {
+            for (int i = 0; i < inputFields.length; i++) {
+                String value = inputFields[i].getText();
+                if (value.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "모든 필드를 입력하세요", "오류", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                sql.append(fieldNames[i]).append(", ");
+                values.append("'").append(value).append("', ");
             }
-            sql.append(fieldNames[i]).append(", ");
-            values.append("'").append(value).append("', ");
-        }
 
-        sql.setLength(sql.length() - 2); // 마지막 콤마 제거
-        values.setLength(values.length() - 2); // 마지막 콤마 제거
-        sql.append(")").append(values).append(")");
+            sql.setLength(sql.length() - 2); // 마지막 콤마 제거
+            values.setLength(values.length() - 2); // 마지막 콤마 제거
+            sql.append(")").append(values).append(")");
 
-        AdminSqlInputDao dao = new AdminSqlInputDao();
-        boolean success = dao.sqlInput(sql.toString(), inputPanel);
+            AdminSqlInputDao dao = new AdminSqlInputDao();
+            boolean success = dao.sqlInput(sql.toString(), inputPanel);
 
-        if (success) {
-            JOptionPane.showMessageDialog(this, "데이터가 성공적으로 삽입되었습니다", "성공", JOptionPane.INFORMATION_MESSAGE);
-        } else {
-            JOptionPane.showMessageDialog(this, "잘못된 데이터 값입니다", "오류", JOptionPane.ERROR_MESSAGE);
+            if (success) {
+                JOptionPane.showMessageDialog(this, "데이터가 성공적으로 삽입되었습니다", "성공", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "잘못된 데이터 값입니다", "오류", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "데이터 삽입 중 오류가 발생했습니다: " + e.getMessage(), "오류", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -158,7 +161,7 @@ public class InsertDataView extends JFrame {
             case "screening_schedule":
                 return new String[]{"start_date", "day_of_week", "round", "start_time", "movie_id", "screen_id", "selling_price", "standard_price"};
             case "seat":
-                return new String[]{"is_used", "row_num", "column_num", "screen_id"};
+                return new String[]{"is_used", "row_num", "column_num", "screen_id", "screening_schedule_id"};
             case "member":
                 return new String[]{"name", "phone_number", "email"};
             case "reservation":
