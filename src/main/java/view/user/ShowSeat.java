@@ -69,7 +69,7 @@ public class ShowSeat extends JFrame {
 
         JPanel seatPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(2, 2, 2, 2);
+        gbc.insets = new Insets(10, 10, 10, 10); // 좌석 간격을 더 크게 설정
 
         int rowSeats = screen.rowSeats();
         int columnSeats = screen.columnSeats();
