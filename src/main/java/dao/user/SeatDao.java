@@ -26,7 +26,37 @@ public class SeatDao {
                         rs.getBoolean("is_used"),
                         rs.getInt("row_num"),
                         rs.getInt("column_num"),
-                        rs.getLong("screen_id")
+                        rs.getLong("screen_id"),
+                        rs.getLong("screening_schedule_id")
+                );
+                seats.add(seat);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return seats;
+    }
+
+    public List<SeatDto> getSeatsByScreeningScheduleId(Long screeningScheduleId) {
+        List<SeatDto> seats = new ArrayList<>();
+        String sql = "SELECT * FROM seat WHERE screening_schedule_id = ?";
+
+        try (Connection conn = User.getUserConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setLong(1, screeningScheduleId);
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                SeatDto seat = new SeatDto(
+                        rs.getLong("id"),
+                        rs.getBoolean("is_used"),
+                        rs.getInt("row_num"),
+                        rs.getInt("column_num"),
+                        rs.getLong("screen_id"),
+                        rs.getLong("screening_schedule_id")
                 );
                 seats.add(seat);
             }
@@ -53,4 +83,3 @@ public class SeatDao {
         return false;
     }
 }
-

@@ -1,10 +1,15 @@
 package dao.user;
 
 import dto.ReservationDto;
+import dto.SeatDto;
 import dto.TicketDto;
 import utils.databaseUtils.User;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class UserReservationCreateDao {
 
@@ -19,6 +24,31 @@ public class UserReservationCreateDao {
             stmt.setInt(3, reservation.paymentAmount());
             stmt.setDate(4, reservation.paymentDate());
             stmt.setLong(5, reservation.memberId());
+
+            int affectedRows = stmt.executeUpdate();
+            if (affectedRows > 0) {
+                ResultSet rs = stmt.getGeneratedKeys();
+                if (rs.next()) {
+                    return rs.getLong(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Long createSeat(SeatDto seat) {
+        String sql = "INSERT INTO seat (is_used, row_num, column_num, screen_id, screening_schedule_id) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = User.getUserConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+
+            stmt.setBoolean(1, seat.isUsed());
+            stmt.setInt(2, seat.rowNum());
+            stmt.setInt(3, seat.columnNum());
+            stmt.setLong(4, seat.screenId());
+            stmt.setLong(5, seat.screeningScheduleId());
 
             int affectedRows = stmt.executeUpdate();
             if (affectedRows > 0) {

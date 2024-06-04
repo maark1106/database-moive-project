@@ -76,27 +76,32 @@ public class ShowSeat extends JFrame {
         int startRow = (10 - rowSeats) / 2; // 10x10 grid에서 중앙에 배치하기 위한 시작 행 계산
         int startCol = (10 - columnSeats) / 2; // 10x10 grid에서 중앙에 배치하기 위한 시작 열 계산
 
-        for (SeatDto seat : seats) {
-            JButton seatButton = new JButton(seat.rowNum() + "-" + seat.columnNum());
-            seatButton.setEnabled(!seat.isUsed());
-            seatButton.setBackground(seat.isUsed() ? Color.RED : Color.LIGHT_GRAY);
-            seatButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    if (seatButton.getBackground() == Color.LIGHT_GRAY) {
-                        seatButton.setBackground(Color.DARK_GRAY);
-                        selectedSeats.add(seat);
-                    } else if (seatButton.getBackground() == Color.DARK_GRAY) {
-                        seatButton.setBackground(Color.LIGHT_GRAY);
-                        selectedSeats.remove(seat);
+        for (int row = 1; row <= rowSeats; row++) {
+            for (int col = 1; col <= columnSeats; col++) {
+                final int currentRow = row;
+                final int currentCol = col;
+                SeatDto seat = findSeat(currentRow, currentCol);
+                JButton seatButton = new JButton(currentRow + "-" + currentCol);
+                seatButton.setEnabled(seat == null || !seat.isUsed());
+                seatButton.setBackground(seat != null && seat.isUsed() ? Color.RED : Color.LIGHT_GRAY);
+                seatButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        if (seatButton.getBackground() == Color.LIGHT_GRAY) {
+                            seatButton.setBackground(Color.DARK_GRAY);
+                            selectedSeats.add(new SeatDto(null, true, currentRow, currentCol, screenId, screeningScheduleId));
+                        } else if (seatButton.getBackground() == Color.DARK_GRAY) {
+                            seatButton.setBackground(Color.LIGHT_GRAY);
+                            selectedSeats.removeIf(s -> s.rowNum() == currentRow && s.columnNum() == currentCol);
+                        }
                     }
-                }
-            });
-            seatButtons.add(seatButton);
+                });
+                seatButtons.add(seatButton);
 
-            gbc.gridx = startCol + seat.columnNum() - 1;
-            gbc.gridy = startRow + seat.rowNum() - 1;
-            seatPanel.add(seatButton, gbc);
+                gbc.gridx = startCol + currentCol - 1;
+                gbc.gridy = startRow + currentRow - 1;
+                seatPanel.add(seatButton, gbc);
+            }
         }
 
         JPanel bottomPanel = new JPanel(new BorderLayout());
@@ -117,6 +122,15 @@ public class ShowSeat extends JFrame {
         add(reserveButton, BorderLayout.SOUTH);
     }
 
+    private SeatDto findSeat(int row, int col) {
+        for (SeatDto seat : seats) {
+            if (seat.rowNum() == row && seat.columnNum() == col) {
+                return seat;
+            }
+        }
+        return null;
+    }
+
     private void loadScreenInfo() {
         ScreenDao screenDao = new ScreenDao();
         screen = screenDao.getScreenById(screenId);
@@ -129,7 +143,7 @@ public class ShowSeat extends JFrame {
 
     private void loadSeats() {
         SeatDao seatDao = new SeatDao();
-        seats = seatDao.getSeatsByScreenId(screenId);
+        seats = seatDao.getSeatsByScreeningScheduleId(screeningScheduleId);
     }
 
     private void reserveSeats() {
@@ -139,7 +153,6 @@ public class ShowSeat extends JFrame {
         }
 
         UserReservationCreateDao reservationDao = new UserReservationCreateDao();
-        SeatDao seatDao = new SeatDao();
         UserReservationDeleteDao deleteDao = new UserReservationDeleteDao();
 
         ReservationDto reservation = new ReservationDto(null, "Credit Card", true, selectedSeats.size() * 10000, new Date(System.currentTimeMillis()), memberId);
@@ -152,11 +165,12 @@ public class ShowSeat extends JFrame {
 
         boolean allSuccess = true;
         for (SeatDto seat : selectedSeats) {
-            if (!seatDao.updateSeatUsage(seat.id(), true)) {
+            Long seatId = reservationDao.createSeat(seat);
+            if (seatId == null) {
                 allSuccess = false;
                 break;
             }
-            TicketDto ticket = new TicketDto(null, true, screeningScheduleId, seat.id(), reservationId, screenId);
+            TicketDto ticket = new TicketDto(null, true, screeningScheduleId, seatId, reservationId, screenId);
             if (!reservationDao.createTicket(ticket)) {
                 allSuccess = false;
                 break;
@@ -165,7 +179,7 @@ public class ShowSeat extends JFrame {
 
         if (allSuccess) {
             if (reservationToChange != null) {
-                if (!seatDao.updateSeatUsage(reservationToChange.seatId(), false) || !deleteDao.deleteReservation(reservationToChange.reservationId())) {
+                if (!deleteDao.deleteReservation(reservationToChange.reservationId())) {
                     JOptionPane.showMessageDialog(this, "이전 예약 삭제에 실패했습니다.", "오류", JOptionPane.ERROR_MESSAGE);
                     return;
                 }

@@ -146,7 +146,8 @@ public class AdminTableDao {
                         rs.getBoolean("is_used"),
                         rs.getInt("row_num"),
                         rs.getInt("column_num"),
-                        rs.getLong("screen_id")
+                        rs.getLong("screen_id"),
+                        rs.getLong("screening_schedule_id")
                 );
 
                 seats.add(seat);

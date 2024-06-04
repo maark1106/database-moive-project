@@ -5,5 +5,6 @@ public record SeatDto(
         boolean isUsed,
         int rowNum,
         int columnNum,
-        Long screenId
+        Long screenId,
+        Long screeningScheduleId
 ) {}
